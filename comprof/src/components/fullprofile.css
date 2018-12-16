@@ -1,0 +1,49 @@
+.profCard{
+  background:linear-gradient(rgba(47, 23, 15, 0.3), rgba(47, 23, 15, 0.65));
+  height:fit-content;
+  position:relative;
+  text-align: center;
+  padding: 50px;
+
+}
+.profileDivborder{
+  border-bottom: solid;
+  /* border-width:15px; */
+  height: 130px;
+  border-color: white;
+  text-align:center;
+  margin-bottom: 130px;
+
+}
+.profile-img{
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  transform: scale(1.5);
+  border-style: solid;
+  border-color: white;
+  margin-top: 50px;
+
+
+}
+.fullprof{
+  margin-top: 130px;
+
+}
+.profileTextContainer{
+  display: flex;
+  width:100%;
+  height:fit-content;
+  margin-top: -50px;
+}
+.experience{
+  border-right: solid;
+  border-right-color: white;
+  height: 100%;
+  width: 50%;
+}
+.achievements{
+  height: 100%;
+  width: 50%;
+
+}

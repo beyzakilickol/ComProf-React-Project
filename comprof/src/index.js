@@ -14,7 +14,8 @@ import HomePage from './components/HomePage'
 import Membership from './components/Membership'
 import SearchProvider from './components/SearchProvider'
 import MainDashboard from './components/MainDashboard'
-
+import AddProfile from './components/AddProfile'
+import FullProfile from './components/FullProfile'
 
 
 let store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
@@ -31,6 +32,8 @@ ReactDOM.render(
       <Route exact path="/membership" component={Membership} />
       <Route exact path="/search-provider" component={SearchProvider} />
       <Route exact path="/main-dashboard" component={MainDashboard} />
+      <Route exact path="/add-profile" component={AddProfile} />
+      <Route exact path="/full-profile" component={FullProfile} />
     </Switch>
 
   </BaseLayout>

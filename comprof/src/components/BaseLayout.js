@@ -8,6 +8,8 @@ import Membership from './Membership'
 import Header from './Header'
 import SearchProvider from './SearchProvider'
 import MainDashboard from './MainDashboard'
+import AddProfile from './AddProfile'
+import FullProfile from './FullProfile'
 
 
 
