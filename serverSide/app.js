@@ -5,6 +5,15 @@ const PORT = 3001
 // const pgp= require('pg-promise')()
 const bcrypt = require('bcrypt');
 var cors = require('cors')
+const pgp= require('pg-promise')()
+const connectionString= {
+    "host": "localhost",
+    "port": 5432,
+    "database": "comprof",
+    "user": "postgres"
+  };
+
+const db = pgp(connectionString)
 const jwt = require('jsonwebtoken')
 app.use(cors())
 // parse application/json
@@ -35,4 +44,69 @@ app.use(function(req, res, next) {
 
 app.listen(PORT, function(){
   console.log('Server is running...')
+})
+//--------------------------------
+app.post('/api/register',function(req,res){
+  let username = req.body.username
+  let email = req.body.email
+  let password = req.body.password
+  let membership = req.body.membership
+  let userType = req.body.userType
+
+  db.one('SELECT userid,username,email,password,membership,usertype FROM userAuth WHERE email = $1',[email]).then((user)=>{
+console.log(user)
+res.json('This email is already taken. Please try with different credential!')
+
+}).catch((error)=>{
+console.log(error)
+if(error.code == 42703 || error.received == 0){
+  bcrypt.hash(password, 10, function(err, hash) {
+
+        if(hash) {
+            db.none('INSERT INTO userAuth (username,email,password,membership,usertype) VALUES ($1,$2,$3,$4,$5)',[username,email,hash,membership,userType]).then(()=>{
+              res.json({success: true})
+            })
+
+        }
+
+    })
+  }
+})
+
+
+})
+app.post('/api/login',function(req,res){
+  let email = req.body.email
+let password = req.body.password
+console.log(email)
+console.log(password)
+db.one('SELECT userid,email,password FROM userAuth WHERE email = $1',[email]).then((response)=>{
+     console.log('User is found')
+     console.log(response)
+    // check for the password
+    bcrypt.compare(password,response.password,function(error,result){
+      if(result) {
+        // password match
+
+        // create a token
+        const token = jwt.sign({ id : response.id },"somesecretkey")
+
+        // send back the token to the user
+        res.json({token: token})
+
+      } else {
+        // password dont match
+        res.json('The password you entered is incorrect!')
+      }
+    })
+
+}).catch((error)=>{
+console.log(error)
+console.log(error.received)
+if(error.received == 0){
+   res.json('The email you entered is invalid!')
+  }
+
+})
+
 })

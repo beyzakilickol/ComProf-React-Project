@@ -12,7 +12,13 @@ class SearchProvider extends Component{
   constructor(props){
     super(props)
   }
-
+  checkUser =()=>{
+    if(this.props.isAuthenticated==false){
+      this.props.history.push('/login')
+    } else {
+      this.props.history.push('/main-dashboard')
+    }
+  }
   render(){
 
     return (
@@ -23,7 +29,7 @@ class SearchProvider extends Component{
               <div className="text">
                 <h2>Search providers by their zipcodes</h2>
                 <input id="zipcodeSearchBox" type="text" name="zipcode" placeholder="Enter Zipcode"/>
-                <button className="btn btn-outline-light btn-lg" type="button">SEARCH</button>
+                <button onClick={this.checkUser} className="btn btn-outline-light btn-lg" type="button">SEARCH</button>
                   </div>
           </section>
       </main>
@@ -37,6 +43,7 @@ class SearchProvider extends Component{
 const mapStateToProps = (state) => {
   return {
     //ctr: state.counter // this.props.ctr
+    isAuthenticated: state.isAuthenticated
   }
 }
 

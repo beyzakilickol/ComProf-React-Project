@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import './styles.css'
 import avatar2 from './avatar2.jpg'
+// import $ from 'jquery';
 
 class MainDashboard extends Component{
   constructor(props){
@@ -14,19 +15,7 @@ class MainDashboard extends Component{
     // }
   }
   componentDidMount = ()=>{
-    // axios.get('https://api.trademe.co.nz/v1/Categories/Jobs.json').then((categories)=>{
-    //   console.log(categories.data)
-    //   let subCat = categories.data.map((data)=>{
-    //     return data.SubCategories
-    //   })
-    //
-    //   this.setState({
-    //     ...this.state,
-    //     categories : categories.data,
-    //
-    //
-    //   })
-    // })
+
   }
   render(){
 

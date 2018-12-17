@@ -21,3 +21,11 @@ $('#cssmenu > ul > li > a').click(function() {
 });
 } )( jQuery );
 //------------------------
+
+document.querySelector('.spanStar').addEventListener('click', function() {
+  document.querySelector('.fa').classList.toggle('checked');
+});
+
+// $("#spanStar").hover(function() {
+//     $("#sorter_bd").toggleClass('sorter_hidden sorter_show');
+// });

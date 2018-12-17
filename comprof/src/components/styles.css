@@ -226,10 +226,10 @@ footer{
    background-repeat: no-repeat;
 
 }
-input{
+/* input{
   border-color: white;
   width: 80%;
-}
+} */
 select{
 
   border-color: black;
