@@ -227,3 +227,10 @@ html, body {
   color:white;
   opacity: 0.6;
 }
+.userButton{
+  background-color: rgba(32, 64, 96,0.8);
+    margin-right: -30px !important;
+}
+.hide{
+  display:none;
+}

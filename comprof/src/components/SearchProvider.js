@@ -13,7 +13,8 @@ class SearchProvider extends Component{
     super(props)
   }
   checkUser =()=>{
-    if(this.props.isAuthenticated==false){
+    let token = localStorage.getItem('jsonwebtoken')
+    if(!token){
       this.props.history.push('/login')
     } else {
       this.props.history.push('/main-dashboard')

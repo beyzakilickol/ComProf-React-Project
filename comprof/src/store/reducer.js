@@ -1,7 +1,10 @@
+let token = localStorage.getItem('jsonwebtoken')
+
 const initialState = {
-  userType: 'client',
   membership: 'no',
-  isAuthenticated: false
+  token: token? token: '',
+  username:'',
+  userType: ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -14,8 +17,14 @@ const reducer = (state = initialState, action) => {
  } else if(action.type == "AUTHENTICATED"){
    return {
      ...state,
-     isAuthenticated : true
-   }
+     token : action.token}
+   } else if(action.type == "USER"){
+     console.log(action.user.usertype)
+     return {
+       ...state,
+       username : action.user.username,
+       userType: action.user.usertype
+     }
  }
 
 

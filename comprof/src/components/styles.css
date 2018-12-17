@@ -155,9 +155,9 @@ height:100%;
       overflow-y:scroll;
       overflow-x:hidden;
 }
-.professionalsContainer{
+.professionalsContainer2{
   width:75%;
-  height:fit-content;
+  height:450px;
 
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -165,13 +165,13 @@ height:100%;
   grid-row-gap: 15px;
   margin-left: 26%;
 }
-.profCard{
+.profCard2{
   background:linear-gradient(rgba(47, 23, 15, 0.3), rgba(47, 23, 15, 0.65));
   height:350px;
   position:relative;
   text-align: center;
 }
-.profileDivborder{
+.profileDivborder2{
   border-bottom: solid;
   /* border-width:15px; */
   height: 23%;
@@ -179,7 +179,7 @@ height:100%;
   text-align:center;
 
 }
-.profile-img{
+.profile-img2{
   border-radius: 50%;
   height: 150px;
   width: 150px;
@@ -226,10 +226,6 @@ footer{
    background-repeat: no-repeat;
 
 }
-/* input{
-  border-color: white;
-  width: 80%;
-} */
 select{
 
   border-color: black;

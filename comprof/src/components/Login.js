@@ -117,8 +117,10 @@ loginSendServer=()=>{
            loginMessage : response.data
          })
        }  else {
-         this.props.authenticate()
+         this.props.user(response.data.user)
+         this.props.authenticate(response.data.token)
          localStorage.setItem('jsonwebtoken',response.data.token)
+
        // put the token in the request header
       setAuthenticationToken(response.data.token)
 
@@ -209,7 +211,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     // this.props.onIncrementCounter
-    authenticate: () => dispatch({type: "AUTHENTICATED"})
+    authenticate: (token) => dispatch({type: "AUTHENTICATED", token: token}),
+    user: (user) => dispatch({type: "USER", user: user})
   }
 }
 

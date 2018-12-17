@@ -46,6 +46,59 @@ app.listen(PORT, function(){
   console.log('Server is running...')
 })
 //--------------------------------
+// function authenticate(req,res,next) {
+//
+//   // authorization should be lower case
+//   let authorizationHeader = req.headers["authorization"]
+//
+//
+//   if(!authorizationHeader) {
+//     res.status(400).json({error: 'Authorization failed!'})
+//     return
+//   }
+//
+//   // Bearer token
+//   const token = authorizationHeader.split(' ')[1] // token
+//
+//   jwt.verify(token,'somesecretkey',function(error,decoded){
+//
+//     if(decoded){
+//       userId = decoded.id
+//
+//       db.one('SELECT id,email,password FROM users WHERE id = $1',[userId]).then((response)=>{
+//         next()
+//       }).catch((error)=>{
+//         res.status(400).json({error: 'User does not exist!'})
+//       })
+//
+//
+//
+//     }
+//
+//   })
+//
+// }
+//------------------------------
+app.post('/api/getUsername',function(req,res){
+  let token = req.body.token
+  console.log(token)
+  jwt.verify(token,'somesecretkey',function(error,decoded){
+
+    if(decoded){
+      userId = decoded.id
+
+      db.one('SELECT username,usertype FROM userAuth WHERE userid = $1',[userId]).then((response)=>{
+          res.json(response)
+      }).catch((error)=>{
+        res.status(400).json({error: 'User does not exist!'})
+      })
+
+
+
+    }
+
+  })
+})
 app.post('/api/register',function(req,res){
   let username = req.body.username
   let email = req.body.email
@@ -80,7 +133,7 @@ app.post('/api/login',function(req,res){
 let password = req.body.password
 console.log(email)
 console.log(password)
-db.one('SELECT userid,email,password FROM userAuth WHERE email = $1',[email]).then((response)=>{
+db.one('SELECT userid,email,password,username,membership,usertype FROM userAuth WHERE email = $1',[email]).then((response)=>{
      console.log('User is found')
      console.log(response)
     // check for the password
@@ -89,10 +142,10 @@ db.one('SELECT userid,email,password FROM userAuth WHERE email = $1',[email]).th
         // password match
 
         // create a token
-        const token = jwt.sign({ id : response.id },"somesecretkey")
+        const token = jwt.sign({ id : response.userid },"somesecretkey")
 
         // send back the token to the user
-        res.json({token: token})
+        res.json({token: token, user: response})
 
       } else {
         // password dont match

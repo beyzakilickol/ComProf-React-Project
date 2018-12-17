@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import './styles.css'
 import avatar2 from './avatar2.jpg'
-// import $ from 'jquery';
+import $ from 'jquery';
 
 class MainDashboard extends Component{
   constructor(props){
@@ -16,7 +16,29 @@ class MainDashboard extends Component{
   }
   componentDidMount = ()=>{
 
-  }
+    $( document ).ready(function() {
+    $('#cssmenu > ul > li > a').click(function() {
+      $('#cssmenu li').removeClass('active');
+      $(this).closest('li').addClass('active');
+      var checkElement = $(this).next();
+      if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+        $(this).closest('li').removeClass('active');
+        checkElement.slideUp('normal');
+      }
+      if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+        $('#cssmenu ul ul:visible').slideUp('normal');
+        checkElement.slideDown('normal');
+      }
+      if($(this).closest('li').find('ul').children().length == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    });
+
+  
+}
   render(){
 
     return (
@@ -322,9 +344,9 @@ class MainDashboard extends Component{
           <li className=''><a href='#'><span></span></a></li>
       </ul>
       </div>
-      <div className="professionalsContainer">
-      <div className="profCard">
-      <div className="profileDivborder"><img className="profile-img" src={avatar2}/></div>
+      <div className="professionalsContainer2">
+      <div className="profCard2">
+      <div className="profileDivborder2"><img className="profile-img2" src={avatar2}/></div>
        <h2 className="text-center text-white">Web Developer</h2>
        <p className="text-white short-info">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups</p>
        <footer>
@@ -334,14 +356,14 @@ class MainDashboard extends Component{
        </footer>
       </div>
 
-      <div className="profCard">
+      <div className="profCard2">
 
       </div>
-      <div className="profCard">
+      <div className="profCard2">
       </div>
-      <div className="profCard">
+      <div className="profCard2">
       </div>
-      <div className="profCard">
+      <div className="profCard2">
       </div>
 </div>
 
