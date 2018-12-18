@@ -48,8 +48,10 @@ class AddProfile extends Component{
 
      <div id="addProfileDiv">
      <label>Enter Full Name:</label><input type="text" name="fullname"/>
-     
+     <label>Enter Zipcode:</label><input type="text" name="zipcode"/>
+      <label>Upload an image:</label><input type="file" onChange={this.onImageChange} className="file" id="imageFile"/>
      <label>Your Expertise:</label>
+
      <select onChange={this.addSubCategories} id="categorySelectDropdown">
      <option disabled selected >Select an option</option>
       {category}

@@ -79,6 +79,7 @@ app.listen(PORT, function(){
 //
 // }
 //------------------------------
+
 app.post('/api/getUsername',function(req,res){
   let token = req.body.token
   console.log(token)
@@ -99,14 +100,29 @@ app.post('/api/getUsername',function(req,res){
 
   })
 })
+app.post('/api/searchcount',function(req,res){
+  let count = req.body.count
+  let userid = req.body.userid
+  db.none('update userauth set searchcount = $1 where userid=$2',[1,userid]).then((response)=>{
+    res.json({success:true})
+  }).catch((error)=>{
+    console.log(error)
+  })
+})
+app.post('/api/getsearchcount',function(req,res){
+   let userid = req.body.userid
+   db.one('select searchcount from userauth where userid=$1',[userid]).then((user)=>{
+     res.json(user)
+   })
+})
 app.post('/api/register',function(req,res){
   let username = req.body.username
   let email = req.body.email
   let password = req.body.password
   let membership = req.body.membership
   let userType = req.body.userType
-
-  db.one('SELECT userid,username,email,password,membership,usertype FROM userAuth WHERE email = $1',[email]).then((user)=>{
+  let searchcount = 0
+  db.one('SELECT userid,username,email,password,membership,usertype,searchcount FROM userAuth WHERE email = $1',[email]).then((user)=>{
 console.log(user)
 res.json('This email is already taken. Please try with different credential!')
 
@@ -116,7 +132,7 @@ if(error.code == 42703 || error.received == 0){
   bcrypt.hash(password, 10, function(err, hash) {
 
         if(hash) {
-            db.none('INSERT INTO userAuth (username,email,password,membership,usertype) VALUES ($1,$2,$3,$4,$5)',[username,email,hash,membership,userType]).then(()=>{
+            db.none('INSERT INTO userAuth (username,email,password,membership,usertype,searchcount) VALUES ($1,$2,$3,$4,$5,$6)',[username,email,hash,membership,userType,searchcount]).then(()=>{
               res.json({success: true})
             })
 
@@ -133,7 +149,7 @@ app.post('/api/login',function(req,res){
 let password = req.body.password
 console.log(email)
 console.log(password)
-db.one('SELECT userid,email,password,username,membership,usertype FROM userAuth WHERE email = $1',[email]).then((response)=>{
+db.one('SELECT userid,email,password,username,membership,usertype,searchcount FROM userAuth WHERE email = $1',[email]).then((response)=>{
      console.log('User is found')
      console.log(response)
     // check for the password

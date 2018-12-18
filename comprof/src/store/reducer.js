@@ -4,7 +4,10 @@ const initialState = {
   membership: 'no',
   token: token? token: '',
   username:'',
-  userType: ''
+  userType: '',
+  userid: '',
+  usersearchcount: '',
+  zipcode: ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -23,9 +26,29 @@ const reducer = (state = initialState, action) => {
      return {
        ...state,
        username : action.user.username,
-       userType: action.user.usertype
+       userType: action.user.usertype,
+       userid: action.user.userid,
+       usersearchcount: action.user.searchcount
      }
- }
+  } else if(action.type == "DELETETOKEN"){
+
+       return {
+         ...state,
+        token : ''
+       }
+ }else if(action.type == "UPDATESEARCHCOUNT"){
+
+      return {
+        ...state,
+       usersearchcount: 1
+      }
+}else if(action.type == "ZIPCODE"){
+
+     return {
+       ...state,
+      zipcode: action.zipcode
+     }
+}
 
 
  return state

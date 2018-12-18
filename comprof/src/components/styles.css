@@ -238,3 +238,7 @@ textarea{
 .profileSubmitBtn{
   margin-top: 10px;
 }
+.file{
+  border-bottom: none;
+  margin-left: 75vw;
+}

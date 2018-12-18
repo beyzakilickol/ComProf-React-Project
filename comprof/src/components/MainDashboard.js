@@ -37,7 +37,7 @@ class MainDashboard extends Component{
     });
     });
 
-  
+
 }
   render(){
 
@@ -45,7 +45,7 @@ class MainDashboard extends Component{
       <div className="dashboardContainer">
       <div id='cssmenu'>
       <ul>
-         <li className='active'><a href='#'><span>By ZipCode</span></a></li>
+         <li className='active'><a href='#'><span>Search results for {this.props.zipcode}</span></a></li>
          <li className='has-sub'><a href='#'><span>Accounting</span></a>
             <ul>
                <li><a href='#'><span>Accountants</span></a></li>
@@ -378,6 +378,7 @@ class MainDashboard extends Component{
 const mapStateToProps = (state) => {
   return {
     //ctr: state.counter // this.props.ctr
+    zipcode: state.zipcode
   }
 }
 
