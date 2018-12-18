@@ -100,6 +100,20 @@ app.post('/api/getUsername',function(req,res){
 
   })
 })
+app.post('/api/addprofile',function(req,res){
+
+  let userid = req.body.userid
+  let fullname = req.body.fullname
+  let zipcode = req.body.zipcode
+  let image = req.body.image
+  let expertise = req.body.expertise
+  let subcategory = req.body.subcategory
+  let experience = req.body.experience
+  let achievement = req.body.achievement
+  db.none('insert into profile (fullname,zipcode,image,expertise,subcategory,experience,achievement,userid) values ($1,$2,$3,$4,$5,$6,$7,$8)',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
+    res.json({success:true})
+  })
+})
 app.post('/api/searchcount',function(req,res){
   let count = req.body.count
   let userid = req.body.userid

@@ -10,6 +10,7 @@ import SearchProvider from './SearchProvider'
 import MainDashboard from './MainDashboard'
 import AddProfile from './AddProfile'
 import FullProfile from './FullProfile'
+import Profile from './Profile'
 
 
 

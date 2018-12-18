@@ -29,9 +29,11 @@ class Header extends Component{
   render(){
 
     let proffesionalLink = ''
+    let proffesionalLink2 = ''
 
     if(this.props.userType == "proffessional") {
-      proffesionalLink = <Link to='/add-profile' className='dropdown-item' >Profile</Link>
+      proffesionalLink = <Link to='/myprofile' className='dropdown-item' >My Profile</Link>
+      proffesionalLink2 = <Link to='/add-profile' className='dropdown-item' > Edit Profile</Link>
     }
 
     if(!this.props.token==''){
@@ -56,7 +58,7 @@ class Header extends Component{
                 </button>
                 <div className="dropdown-menu">
                   <a className="dropdown-item" href="#">My messages</a>
-                  {proffesionalLink}
+                  {proffesionalLink}{proffesionalLink2}
                   <div className="dropdown-divider"></div>
                   <button onClick={this.logout} className="dropdown-item" >Logout</button>
                 </div>
