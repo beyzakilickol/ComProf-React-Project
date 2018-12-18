@@ -110,9 +110,19 @@ app.post('/api/addprofile',function(req,res){
   let subcategory = req.body.subcategory
   let experience = req.body.experience
   let achievement = req.body.achievement
-  db.none('insert into profile (fullname,zipcode,image,expertise,subcategory,experience,achievement,userid) values ($1,$2,$3,$4,$5,$6,$7,$8)',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
-    res.json({success:true})
+  db.one('select * from profile where userid=$1',[userid]).then((profile)=>{
+    db.none('update profile set fullname=$1,zipcode=$2,image=$3,expertise=$4,subcategory=$5,experience=$6,achievement=$7 where userid=$8',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
+      res.json({success:true})
+    })
+  }).catch((error)=>{
+    if(error.code == 42703 || error.received == 0){
+      db.none('insert into profile (fullname,zipcode,image,expertise,subcategory,experience,achievement,userid) values ($1,$2,$3,$4,$5,$6,$7,$8)',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
+        res.json({success:true})
+      })
+    }
   })
+
+
 })
 app.post('/api/searchcount',function(req,res){
   let count = req.body.count
@@ -192,4 +202,14 @@ if(error.received == 0){
 
 })
 
+})
+app.post('/api/getprofile',function(req,res){
+  let userid = req.body.userid
+  db.one(`select fullname,subcategory,expertise,rating,encode(image,'base64') as image ,zipcode,experience,achievement from profile where userid =${userid}`).then((userprofile)=>{
+    console.log('profile is found')
+
+    console.log(userprofile)
+
+    res.json(userprofile)
+  })
 })

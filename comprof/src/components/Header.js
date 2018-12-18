@@ -33,7 +33,7 @@ class Header extends Component{
 
     if(this.props.userType == "proffessional") {
       proffesionalLink = <Link to='/myprofile' className='dropdown-item' >My Profile</Link>
-      proffesionalLink2 = <Link to='/add-profile' className='dropdown-item' > Edit Profile</Link>
+      proffesionalLink2 = <a href='/add-profile' className='dropdown-item' > Edit Profile</a>
     }
 
     if(!this.props.token==''){

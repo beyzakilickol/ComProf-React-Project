@@ -7,6 +7,7 @@ import reducer from './store/reducer'
 import { Provider } from 'react-redux'
 import history from './history'
 import {Router, Switch, Route} from 'react-router-dom'
+import { PersistGate } from 'redux-persist/lib/integration/react'
 //---------------------------
 import BaseLayout from './components/BaseLayout'
 import Login from './components/Login'
@@ -17,14 +18,14 @@ import MainDashboard from './components/MainDashboard'
 import AddProfile from './components/AddProfile'
 import FullProfile from './components/FullProfile'
 import Profile from './components/Profile'
-
-
-let store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+import {persistor, store} from './store/configureStore'
 
 
 ReactDOM.render(
   <Provider store = {store}>
+  <PersistGate loading={null} persistor={persistor}>
   <Router history={history}>
+
   <BaseLayout >
 
     <Switch>
@@ -39,7 +40,9 @@ ReactDOM.render(
     </Switch>
 
   </BaseLayout>
+
   </Router>
+</PersistGate>
   </Provider>
   , document.getElementById('root'));
 

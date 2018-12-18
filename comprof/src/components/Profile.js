@@ -5,38 +5,61 @@ import {Link, NavLink} from 'react-router-dom'
 import axios from 'axios'
 import './fullprofile.css'
 import avatar2 from './avatar2.jpg'
+import profileimage from './profileImage.png'
 
 
 
 class Profile extends Component{
   constructor(props){
     super(props)
-
+    this.state={
+      subcategory:'',
+      fullname:'',
+      image:profileimage,
+      rating:'No rating yet',
+      experience:'',
+      achievement:'',
+      expertise:''
+    }
   }
-
+ componentDidMount = () =>{
+   axios.post('http://localhost:3001/api/getprofile',{
+     userid: this.props.userid
+   }).then((response)=>{
+     console.log(response.data.image)
+        this.setState({
+          ...this.state,
+          subcategory:response.data.subcategory,
+          fullname:response.data.fullname,
+          image:this.state.image,
+          rating:response.data.rating || this.state.rating,
+          experience:response.data.experience,
+          achievement:response.data.achievement,
+          expertise:response.data.expertise
+        })
+   })
+ }
 
   render(){
 
     return (
 
+
       <div className="profCard fullprof">
-      <h1 className="text-center text-white">Web Developer</h1>
-      <h2 id="profName" className="text-center">John Doe</h2>
-      <h3 id="rating" className="text-center">Rating : 4.5</h3>
-      <div className="profileDivborder"><img className="profile-img" src={avatar2}/></div>
+      <h1 className="text-center text-white">{this.state.expertise}/{this.state.subcategory}</h1>
+      <h2 id="profName" className="text-center">{this.state.fullname}</h2>
+      <h3 id="rating" className="text-center">Rating : {this.state.rating}</h3>
+      <div className="profileDivborder"><img className="profile-img" src={this.state.image}/></div>
+
 
        <div className="profileTextContainer">
        <div className="experience">
        <h3>MY ACHIEVEMENTS</h3>
-       <p className="text-white short-info">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockupsLine 47:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 49:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 50:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https:</p>
+       <p >{this.state.achievement}</p>
       </div>
        <div className="achievements">
        <h3>MY EXPERIENCE</h3>
-       <p className="text-white short-info">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockupsLine 47:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 49:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 50:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https:</p>
+       <p> {this.state.experience}</p>
        </div>
        <div>
        </div>
@@ -54,6 +77,7 @@ class Profile extends Component{
 const mapStateToProps = (state) => {
   return {
     //ctr: state.counter // this.props.ctr
+    userid: state.userid
   }
 }
 

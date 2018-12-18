@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import {Link, NavLink} from 'react-router-dom'
 import axios from 'axios'
 import './styles.css'
+import profileimage from './profileImage.png'
 
 
 
@@ -16,11 +17,12 @@ class AddProfile extends Component{
       subcateg : [],
       fullname: '',
       zipcode: 0,
-      image: '',
+      image: profileimage,
       expertise: '',
       subcategory: '',
       experience: '',
       achievement: ''
+
     }
   }
   componentDidMount = ()=>{
@@ -30,6 +32,20 @@ class AddProfile extends Component{
         ...this.state,
         categories : categories.data,
       })
+    })
+    axios.post('http://localhost:3001/api/getprofile',{
+      userid: this.props.userid
+    }).then((response)=>{
+
+         this.setState({
+           ...this.state,
+           expertise: response.data.expertise,
+           subcategory: response.data.subcategory,
+           fullname:response.data.fullname,
+           zipcode: response.data.zipcode,
+           experience:response.data.experience,
+           achievement:response.data.achievement
+         })
     })
   }
   addSubCategories = (e) =>{
@@ -93,7 +109,7 @@ sendProfile=()=>{
     experience: this.state.experience,
     achievement: this.state.achievement
   }).then((response)=>{
-    console.log(response)
+    this.props.history.push('/myprofile')
   })
 }
   render(){
@@ -106,23 +122,23 @@ sendProfile=()=>{
     return (
 
      <div id="addProfileDiv">
-     <label>Enter Full Name:</label><input onChange={this.getFullName} type="text" name="fullname"/>
-     <label>Enter Zipcode:</label><input onChange={this.getZipcode} type="text" name="zipcode"/>
+     <label>Enter Full Name:</label><input onChange={this.getFullName} type="text" value={this.state.fullname} name="fullname"/>
+     <label>Enter Zipcode:</label><input value={this.state.zipcode} onChange={this.getZipcode} type="text" name="zipcode"/>
       <label>Upload an image:</label><input type="file" onChange={this.onImageChange} className="file" id="imageFile"/>
      <label>Your Expertise:</label>
 
-     <select onChange={this.addSubCategories} id="categorySelectDropdown">
+     <select value={this.state.expertise} onChange={this.addSubCategories} id="categorySelectDropdown">
      <option disabled selected >Select an option</option>
       {category}
      </select>
      <label>Select a sub categoy:
      </label>
-     <select onChange={this.getSubCat}  id="subcategorySelectDropdown">
+     <select value={this.state.subcategory} onChange={this.getSubCat}  id="subcategorySelectDropdown">
      <option disabled selected >Select an option</option>
      {subcategory}
      </select>
-     <label>Your experience</label><textarea onChange={this.getExperience} placeholder="Type your experience here..." type="text" name="experience"></textarea>
-     <label>Your Achievements</label><textarea onChange={this.getAchievement} placeholder="Type your achievements here..." type="text" name="achievements"></textarea>
+     <label>Your experience</label><textarea value={this.state.experience} onChange={this.getExperience} placeholder="Type your experience here..." type="text" name="experience"></textarea>
+     <label>Your Achievements</label><textarea value={this.state.achievement} onChange={this.getAchievement} placeholder="Type your achievements here..." type="text" name="achievements"></textarea>
      <button onClick={this.sendProfile} className="btn btn-warning profileSubmitBtn">Submit</button>
      </div>
 
