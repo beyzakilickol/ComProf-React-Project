@@ -12,6 +12,7 @@ import AddProfile from './AddProfile'
 import FullProfile from './FullProfile'
 import Profile from './Profile'
 import Contact from './Contact'
+import Mymessages from './Mymessages'
 
 
 

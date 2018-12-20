@@ -19,6 +19,7 @@ import AddProfile from './components/AddProfile'
 import FullProfile from './components/FullProfile'
 import Profile from './components/Profile'
 import Contact from './components/Contact'
+import Mymessages from './components/Mymessages'
 import {persistor, store} from './store/configureStore'
 
 
@@ -39,6 +40,7 @@ ReactDOM.render(
       <Route exact path="/full-profile" component={FullProfile} />
       <Route exact path="/myprofile" component={Profile} />
       <Route exact path="/sendmessage" component={Contact} />
+      <Route exact path="/mymessages" component={Mymessages} />
     </Switch>
 
   </BaseLayout>

@@ -57,7 +57,7 @@ class Header extends Component{
                   {this.props.username}
                 </button>
                 <div className="dropdown-menu">
-                  <a className="dropdown-item" href="#">My messages</a>
+                  <a className="dropdown-item" href="/mymessages">My messages</a>
                   {proffesionalLink}{proffesionalLink2}
                   <div className="dropdown-divider"></div>
                   <button onClick={this.logout} className="dropdown-item" >Logout</button>

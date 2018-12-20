@@ -116,7 +116,7 @@ app.post('/api/addprofile',function(req,res){
     })
   }).catch((error)=>{
     if(error.code == 42703 || error.received == 0){
-      db.none('insert into profile (fullname,zipcode,image,expertise,subcategory,experience,achievement,userid) values ($1,$2,$3,$4,$5,$6,$7,$8)',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
+      db.none('insert into profile (fullname,zipcode,image,expertise,subcategory,experience,achievement,userid) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
         res.json({success:true})
       })
     }
@@ -245,13 +245,22 @@ app.post('/api/submitRating',function(req,res){
    console.log(rating)
   db.one('select rating from profile where userid=$1',[userid]).then((response)=>{
     console.log(parseFloat(response.rating))
+    if(response.rating){
     let sum = parseFloat(response.rating) + parseFloat(rating)
     console.log(sum)
     let finalRating = sum/2
     console.log(finalRating)
     db.none('update profile set rating = $1 where userid=$2',[finalRating,userid]).then(()=>{
       res.json({success:true})
-    })
+    })} else {
+      let sum = 0 + parseFloat(rating)
+      console.log(sum)
+      let finalRating = sum
+      console.log(finalRating)
+      db.none('update profile set rating = $1 where userid=$2',[finalRating,userid]).then(()=>{
+        res.json({success:true})
+      })
+    }
   })
 
 })
@@ -259,7 +268,18 @@ app.post('/api/sendmessage',function(req,res){
   let contactuserid = req.body.contactuserid
   let messagebody = req.body.messagebody
   let messagetitle = req.body.messagetitle
-  db.none('insert into receivedmessages (messagetitle,messagebody,userid) values ($1,$2,$3)',[messagetitle,messagebody,contactuserid]).then(()=>{
+  let senderusername = req.body.senderusername
+  console.log(senderusername)
+  console.log(messagebody)
+  console.log(messagetitle)
+  console.log(contactuserid)
+  db.none('insert into receivedmessages (messagetitle,messagebody,userid,sender) values ($1,$2,$3,$4)',[messagetitle,messagebody,contactuserid,senderusername]).then(()=>{
     res.json({success:true})
+  })
+})
+app.post('/api/getAllMessages',function(req,res){
+  let userid = req.body.userid
+  db.any('select * from receivedmessages where userid = $1',[userid]).then((response)=>{
+    res.json(response)
   })
 })

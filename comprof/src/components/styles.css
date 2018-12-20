@@ -253,3 +253,9 @@ textarea{
   border-bottom: none;
   margin-left: 75vw;
 }
+.messageContainer{
+  margin-top: 120px;
+}
+.card-header{
+  margin-bottom: 7px;
+}
