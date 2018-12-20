@@ -33,8 +33,7 @@ const reducer = (state = initialState, action) => {
   } else if(action.type == "DELETETOKEN"){
 
        return {
-         ...state,
-        token : ''
+        state:initialState
        }
  }else if(action.type == "UPDATESEARCHCOUNT"){
 
@@ -49,7 +48,19 @@ const reducer = (state = initialState, action) => {
       zipcode: action.zipcode
      }
 }
+else if(action.type == "FULLPROFILEUSERID"){
 
+     return {
+       ...state,
+      fullProfileUserId: action.id
+     }
+}else if(action.type == "CONTACTUSERID"){
+
+     return {
+       ...state,
+      contactuserid: action.contactuserid
+     }
+}
 
  return state
 }

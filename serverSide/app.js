@@ -213,3 +213,53 @@ app.post('/api/getprofile',function(req,res){
     res.json(userprofile)
   })
 })
+app.post('/api/expertise',function(req,res){
+  let expertise = req.body.expertise
+  let subcategory = req.body.subcategory
+  let zipcode = req.body.zipcode
+  console.log(expertise)
+  console.log(subcategory)
+  console.log(zipcode)
+  db.any('SELECT u.userid,u.username,u.password,u.usertype,p.profileid,p.fullname,p.image,p.experience,p.achievement,p.expertise,p.zipcode,p.subcategory,p.rating from userauth u LEFT JOIN profile p on u.userid = p.userid where u.usertype = $1 and p.zipcode = $2 and p.expertise = $3 and p.subcategory = $4',['proffessional',zipcode,expertise,subcategory]).then((profiles)=>{
+    console.log(profiles)
+     res.json(profiles)
+  })
+
+})
+app.post('/api/getAllProfile',function(req,res){
+  let zipcode= req.body.zipcode
+  db.any('SELECT u.userid,u.username,u.password,u.usertype,p.profileid,p.fullname,p.image,p.experience,p.achievement,p.expertise,p.zipcode,p.subcategory,p.rating from userauth u LEFT JOIN profile p on u.userid = p.userid where u.usertype = $1 and p.zipcode = $2',['proffessional',zipcode]).then((profiles)=>{
+
+    res.json(profiles)
+  })
+})
+app.post('/api/getFullProfile',function(req,res){
+  let userid = req.body.userid
+  db.one('select userid,fullname,subcategory,expertise,rating,image,zipcode,experience,achievement from profile where userid =$1',[userid]).then((user)=>{
+    res.json(user)
+  })
+})
+app.post('/api/submitRating',function(req,res){
+  let userid = req.body.userid
+  let rating = req.body.rating
+   console.log(rating)
+  db.one('select rating from profile where userid=$1',[userid]).then((response)=>{
+    console.log(parseFloat(response.rating))
+    let sum = parseFloat(response.rating) + parseFloat(rating)
+    console.log(sum)
+    let finalRating = sum/2
+    console.log(finalRating)
+    db.none('update profile set rating = $1 where userid=$2',[finalRating,userid]).then(()=>{
+      res.json({success:true})
+    })
+  })
+
+})
+app.post('/api/sendmessage',function(req,res){
+  let contactuserid = req.body.contactuserid
+  let messagebody = req.body.messagebody
+  let messagetitle = req.body.messagetitle
+  db.none('insert into receivedmessages (messagetitle,messagebody,userid) values ($1,$2,$3)',[messagetitle,messagebody,contactuserid]).then(()=>{
+    res.json({success:true})
+  })
+})

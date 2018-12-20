@@ -5,38 +5,100 @@ import {Link, NavLink} from 'react-router-dom'
 import axios from 'axios'
 import './fullprofile.css'
 import avatar2 from './avatar2.jpg'
+import $ from 'jquery';
 
 
 
 class FullProfile extends Component{
   constructor(props){
     super(props)
-
+    this.state={
+      user: {},
+      rating: 0,
+      className: 'stars',
+      message: ''
+    }
   }
-
-
+  componentDidMount = ()=>{
+     axios.post('http://localhost:3001/api/getFullProfile',{
+       userid: this.props.fullProfileUserId
+     }).then((response)=>{
+       this.setState({
+         user: response.data
+       })
+     })
+  }
+  getRating1 = () =>{
+    this.setState({
+      ...this.state,
+      rating: 1
+    })
+  }
+  getRating2 = () =>{
+    this.setState({
+      ...this.state,
+      rating: 2
+    })
+  }
+  getRating3 = () =>{
+    this.setState({
+      ...this.state,
+      rating: 3
+    })
+  }
+  getRating4 = () =>{
+    this.setState({
+      ...this.state,
+      rating: 4
+    })
+  }
+  getRating5 = () =>{
+    this.setState({
+      ...this.state,
+      rating: 5
+    })
+  }
+  submitRating=()=>{
+    axios.post('http://localhost:3001/api/submitRating',{
+      rating: this.state.rating,
+      userid: this.state.user.userid
+    }).then((response)=>{
+      this.setState({
+        ...this.state,
+        className: 'stars hide',
+        message: 'Your rating is submitted!'
+      })
+    })
+  }
+  sendUsertoRedux=()=>{
+    this.props.contactUserId(this.state.user.userid)
+    this.props.history.push('/sendmessage')
+  }
   render(){
+    let norating= ''
+    let rating = ''
+    if(this.state.user.rating){
+      rating = <h3 id="rating" className="text-center">Rating : {this.state.user.rating}</h3>
+    } else {
+      norating = <h3 id="rating" className="text-center">Rating : No Rating Yet</h3>
+    }
 
     return (
 
       <div className="profCard fullprof">
-      <h1 className="text-center text-white">Web Developer</h1>
-      <h2 id="profName" className="text-center">John Doe</h2>
-      <h3 id="rating" className="text-center">Rating : 4.5</h3>
+      <h1 className="text-center text-white">{this.state.user.expertise}/{this.state.user.subcategory}</h1>
+      <h2 id="profName" className="text-center">{this.state.user.fullname}</h2>
+      {norating}{rating}
       <div className="profileDivborder"><img className="profile-img" src={avatar2}/></div>
 
        <div className="profileTextContainer">
        <div className="experience">
-       <h3>MY ACHIEVEMENTS</h3>
-       <p className="text-white short-info">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockupsLine 47:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 49:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 50:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https:</p>
+       <h3>ACHIEVEMENTS</h3>
+       <p className="text-white short-info">{this.state.user.achievement}</p>
       </div>
        <div className="achievements">
-       <h3>MY EXPERIENCE</h3>
-       <p className="text-white short-info">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockupsLine 47:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 49:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a55y/blob/master/docs/rules/anchor-is-valid.md  jsx-a55y/anchor-is-valid
-  Line 50:   The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https:</p>
+       <h3>EXPERIENCE</h3>
+       <p className="text-white short-info">{this.state.user.experience}</p>
        </div>
        <div>
        </div>
@@ -44,18 +106,19 @@ class FullProfile extends Component{
           </div>
           <p>Rate the proffesional: </p>
   <div className="starContainer">
-  	<div class="stars">
-  		<input type="radio" name="star" class="star-1" id="star-1" />
-  		<label id="starLabel" for="star-1"><span className="spanStar fa fa-star"></span></label>
-  		<input type="radio" name="star" class="star-2" id="star-2" />
-  		<label class="star-2" for="star-2"><span className="spanStar2 fa fa-star"></span></label>
-  		<input type="radio" name="star" class="star-3" id="star-3" />
-  		<label class="star-3" for="star-3"><span className="spanStar3 fa fa-star"></span></label>
-  		<input type="radio" name="star" class="star-4" id="star-4" />
-  		<label class="star-4" for="star-4"><span className="spanStar4 fa fa-star"></span></label>
-  		<input type="radio" name="star" class="star-5" id="star-5" />
-  		<label class="star-5" for="star-5"><span className="spanStar5 fa fa-star"></span></label>
-      <button id="rateBtn"className="btn btn-warning">Submit</button>
+  <h3 className="text-white">{this.state.message}</h3>
+  	<div class={this.state.className}>
+  		<input type="radio" name="star" class="star-1" id="star-1" value="1"/>
+  		<label onClick={this.getRating1} id="starLabel" for="star-1"><span className="spanStar fa fa-star"></span></label>
+  		<input type="radio" name="star" class="star-2" id="star-2" value="2"/>
+  		<label onClick={this.getRating2} class="star-2" for="star-2"><span className="spanStar2 fa fa-star"></span></label>
+  		<input type="radio" name="star" class="star-3" id="star-3" value="3"/>
+  		<label onClick={this.getRating3} class="star-3" for="star-3"><span className="spanStar3 fa fa-star"></span></label>
+  		<input type="radio" name="star" class="star-4" id="star-4" value="4"/>
+  		<label onClick={this.getRating4} class="star-4" for="star-4"><span className="spanStar4 fa fa-star"></span></label>
+  		<input type="radio" name="star" class="star-5" id="star-5" value="5"/>
+  		<label onClick={this.getRating5} class="star-5" for="star-5"><span className="spanStar5 fa fa-star"></span></label>
+      <button onClick={this.submitRating} id="rateBtn"className="btn btn-warning">Submit</button>
 
   	</div>
 </div>
@@ -63,7 +126,7 @@ class FullProfile extends Component{
 
 
 
-<button id="contactBtn" className="btn btn-warning">Contact</button>
+<button onClick={this.sendUsertoRedux} id="contactBtn" className="btn btn-warning">Contact</button>
       </div>
 
     )
@@ -75,6 +138,7 @@ class FullProfile extends Component{
 const mapStateToProps = (state) => {
   return {
     //ctr: state.counter // this.props.ctr
+    fullProfileUserId: state.fullProfileUserId
   }
 }
 
@@ -82,7 +146,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     // this.props.onIncrementCounter
-
+    contactUserId: (id) => dispatch({type: "CONTACTUSERID", contactuserid: id})
   }
 }
 

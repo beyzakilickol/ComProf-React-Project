@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link, NavLink} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
@@ -6,18 +7,77 @@ import './styles.css'
 import avatar2 from './avatar2.jpg'
 import $ from 'jquery';
 
+
 class MainDashboard extends Component{
   constructor(props){
     super(props)
-    // this.state={
-    //   categories: [],
-    //
-    // }
+    this.state={
+    profiles:[],
+    rating: 'No rating yet'
+    }
+
   }
+
   componentDidMount = ()=>{
 
+    axios.post('http://localhost:3001/api/getAllProfile',{
+      zipcode: this.props.zipcode
+    }).then((response)=>{
+      console.log(response.data)
+
+      this.setState({
+        profiles: response.data
+      })
+    })
+
     $( document ).ready(function() {
+
     $('#cssmenu > ul > li > a').click(function() {
+        console.log($(this).children().html().replace("&amp;", "&"))
+        console.log($(this).closest('li').find('ul').children())
+        console.log($('#zipcode').html())
+        $(this).closest('li').find('ul').children().click(function(){
+          axios.post('http://localhost:3001/api/expertise',{
+            expertise: $(this).parentsUntil('.has-sub').parent().find('.expertise').html().replace("&amp;", "&"),
+            subcategory: $(this).children().children().html().replace("&amp;", "&"),
+            zipcode: $('#zipcode').html()
+          }).then(function(response){
+            console.log(response.data)
+               let profs = response.data.map((each)=>{
+
+                 if(each.rating){
+                 return ` <div class="profCard2">
+                   <div class="profileDivborder2"><img class="profile-img2" src=${avatar2}/></div>
+                    <h2 class="text-center text-white">${each.expertise}/${each.subcategory}</h2>
+                    <h5 >${each.fullname}</h5>
+                    <p class="text-white short-info">${each.experience}</p>
+                    <footer>
+                    <p>Rating: ${each.rating}</p>
+                    <input class="more" type="hidden" value="${each.userid}"/>
+                    <button class="moreBtn btn btn-warning" >More...</button>
+                    </footer>
+                   </div>`
+                 } else {
+                     return ` <div class="profCard2">
+                       <div class="profileDivborder2"><img class="profile-img2" src=${avatar2}/></div>
+                        <h2 class="text-center text-white">${each.expertise}/${each.subcategory}</h2>
+                        <h5 >${each.fullname}</h5>
+                        <p class="text-white short-info">${each.experience}</p>
+                        <footer>
+                        <p>Rating: No rating yet</p>
+                        <input class="more" type="hidden" value="${each.userid}"/>
+                        <button class="moreBtn btn btn-warning" >More...</button>
+                        </footer>
+                       </div>`
+                   }
+               })
+
+               $('.professionalsContainer2').html(profs)
+          })
+              console.log($(this).children().children().html().replace("&amp;", "&"))
+        console.log($(this).parentsUntil('.has-sub').parent().find('.expertise').html().replace("&amp;", "&"))
+        })
+
       $('#cssmenu li').removeClass('active');
       $(this).closest('li').addClass('active');
       var checkElement = $(this).next();
@@ -34,28 +94,63 @@ class MainDashboard extends Component{
       } else {
         return false;
       }
-    });
+
     });
 
+    });
 
 }
-  render(){
+fullProfile = (e)=>{
+  console.log(e.target.value)
+   this.props.fullProfileUserId(e.target.value)
 
+}
+getValue=(e)=>{
+  console.log(e.target.value)
+}
+  render(){
+    let profile = this.state.profiles.map((each)=>{
+      if(each.rating){
+      return   <div className="profCard2">
+        <div className="profileDivborder2"><img className="profile-img2" src={avatar2}/></div>
+         <h2 className="text-center text-white">{each.expertise}/{each.subcategory}</h2>
+         <h5 >{each.fullname}</h5>
+         <p className="text-white short-info">{each.experience}</p>
+         <footer>
+         <p>Rating: {each.rating}</p>
+
+         <a href="/full-profile"><button onClick={this.fullProfile} value={each.userid} className="btn btn-warning">More...</button></a>
+         </footer>
+        </div>
+    } else {
+    return   <div className="profCard2">
+      <div className="profileDivborder2"><img className="profile-img2" src={avatar2}/></div>
+       <h2 className="text-center text-white">{each.expertise}/{each.subcategory}</h2>
+       <h5 >{each.fullname}</h5>
+       <p className="text-white short-info">{each.experience}</p>
+       <footer>
+       <p>Rating: {this.state.rating}</p>
+
+        <a href="/full-profile"><button onClick={this.fullProfile} value={each.userid} className="btn btn-warning">More...</button></a>
+       </footer>
+      </div>
+    }
+    })
     return (
       <div className="dashboardContainer">
       <div id='cssmenu'>
       <ul>
-         <li className='active'><a href='#'><span>Search results for {this.props.zipcode}</span></a></li>
-         <li className='has-sub'><a href='#'><span>Accounting</span></a>
+         <li className='active'><a href='#'><span id="zipcode">{this.props.zipcode}</span></a></li>
+         <li className='has-sub'><a href='#'><span className="expertise" >Accounting</span></a>
             <ul>
                <li><a href='#'><span>Accountants</span></a></li>
                <li><a href='#'><span>Accounts administrators</span></a></li>
-               <li><a href='#'><span>Finance managers & controllers</span></a></li>
+               <li><a href='#'><span>Finance managers &#38; controllers</span></a></li>
                <li><a href='#'><span>Management</span></a></li>
                <li className='last'><a href='#'><span>Payroll</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Agriculture, fishing & forestry</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Agriculture, fishing & forestry</span></a>
             <ul>
                <li><a href='#'><span>Farming</span></a></li>
                <li><a href='#'><span>Fishing</span></a></li>
@@ -64,7 +159,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Architecture</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Architecture</span></a>
             <ul>
                <li><a href='#'><span>Architects</span></a></li>
                <li><a href='#'><span>Drafting</span></a></li>
@@ -73,7 +168,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Automotive</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Automotive</span></a>
             <ul>
                <li><a href='#'><span>Automotive technician</span></a></li>
                <li><a href='#'><span>Diesel mechanic</span></a></li>
@@ -83,7 +178,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Banking, finance & insurance</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Banking, finance & insurance</span></a>
             <ul>
                <li><a href='#'><span>Analysts</span></a></li>
                <li><a href='#'><span>Client services</span></a></li>
@@ -98,7 +193,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Construction & roading</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Construction & roading</span></a>
             <ul>
                <li><a href='#'><span>Estimation</span></a></li>
                <li><a href='#'><span>Health & safety</span></a></li>
@@ -111,7 +206,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Customer service</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Customer service</span></a>
             <ul>
                <li><a href='#'><span>Call centre</span></a></li>
                <li><a href='#'><span>Customer-facing</span></a></li>
@@ -119,7 +214,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Education</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Education</span></a>
             <ul>
             <li><a href='#'><span>Teacher</span></a></li>
             <li><a href='#'><span>Admin</span></a></li>
@@ -132,7 +227,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Engineering</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Engineering</span></a>
             <ul>
                <li><a href='#'><span>Geotechnical</span></a></li>
                <li><a href='#'><span>Building services</span></a></li>
@@ -150,7 +245,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Healthcare</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Healthcare</span></a>
             <ul>
                <li><a href='#'><span>Administration</span></a></li>
                <li><a href='#'><span>Caregiving</span></a></li>
@@ -171,13 +266,13 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>About</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">About</span></a>
             <ul>
                <li><a href='#'><span>Company</span></a></li>
                <li className='last'><a href='#'><span>Contact</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Hospitality & tourism</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Hospitality & tourism</span></a>
             <ul>
                <li><a href='#'><span>Bar staff & baristas</span></a></li>
                <li><a href='#'><span>Chefs</span></a></li>
@@ -191,7 +286,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>HR & recruitment</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">HR & recruitment</span></a>
             <ul>
                <li><a href='#'><span>Health & safety</span></a></li>
                <li><a href='#'><span>HR</span></a></li>
@@ -200,7 +295,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>IT</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">IT</span></a>
             <ul>
                <li><a href='#'><span>Architects</span></a></li>
                <li><a href='#'><span>Business & systems analysts</span></a></li>
@@ -222,7 +317,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Manufacturing & operations</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Manufacturing & operations</span></a>
             <ul>
                <li><a href='#'><span>Fitters & machining</span></a></li>
                <li><a href='#'><span>Machine Operation</span></a></li>
@@ -236,7 +331,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Marketing, media & communications</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Marketing, media & communications</span></a>
             <ul>
                <li><a href='#'><span>Advertising</span></a></li>
                <li><a href='#'><span>Brand & product management</span></a></li>
@@ -251,7 +346,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Office & administration</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Office & administration</span></a>
             <ul>
                <li><a href='#'><span>Administration</span></a></li>
                <li><a href='#'><span>Data Entry</span></a></li>
@@ -261,7 +356,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Property</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Property</span></a>
             <ul>
                <li><a href='#'><span>Commercial sales & leasing</span></a></li>
                 <li><a href='#'><span>Consultancy & valuation</span></a></li>
@@ -271,7 +366,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Retail</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Retail</span></a>
             <ul>
                <li><a href='#'><span>Area Manager</span></a></li>
                <li><a href='#'><span>Buying</span></a></li>
@@ -285,7 +380,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Sales</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Sales</span></a>
             <ul>
                <li><a href='#'><span>Account management</span></a></li>
                <li><a href='#'><span>Business development manager</span></a></li>
@@ -297,10 +392,10 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Science & technology</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Science & technology</span></a>
 
          </li>
-         <li className='has-sub'><a href='#'><span>Trades & services</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise" onClick={this.getValue}>Trades & services</span></a>
             <ul>
                <li><a href='#'><span>Air con. & refrigeration</span></a></li>
                <li><a href='#'><span>Beautician</span></a></li>
@@ -326,7 +421,7 @@ class MainDashboard extends Component{
                <li className='last'><a href='#'><span>Other</span></a></li>
             </ul>
          </li>
-         <li className='has-sub'><a href='#'><span>Transport & logistics</span></a>
+         <li className='has-sub'><a href='#'><span className="expertise">Transport & logistics</span></a>
             <ul>
                <li><a href='#'><span>Drivers & couriers</span></a></li>
                <li><a href='#'><span>Freight forwarders</span></a></li>
@@ -345,26 +440,8 @@ class MainDashboard extends Component{
       </ul>
       </div>
       <div className="professionalsContainer2">
-      <div className="profCard2">
-      <div className="profileDivborder2"><img className="profile-img2" src={avatar2}/></div>
-       <h2 className="text-center text-white">Web Developer</h2>
-       <p className="text-white short-info">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups</p>
-       <footer>
-       <p>Response rating &nbsp;&#9734;&#9734;&#9734;&#9734;</p>
-       <p>Service rating &nbsp;&#9734;&#9734;&#9734;&#9734;</p>
-       <button className="btn btn-warning">Contact</button>
-       </footer>
-      </div>
+      {profile}
 
-      <div className="profCard2">
-
-      </div>
-      <div className="profCard2">
-      </div>
-      <div className="profCard2">
-      </div>
-      <div className="profCard2">
-      </div>
 </div>
 
 
@@ -386,7 +463,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     // this.props.onIncrementCounter
-
+fullProfileUserId: (id) => dispatch({type: "FULLPROFILEUSERID", id: id})
   }
 }
 

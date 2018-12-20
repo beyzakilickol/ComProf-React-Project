@@ -205,10 +205,21 @@ footer{
   right:0;
   width:100%;
   color:white;
+  background-color: cornsilk;
+  height: 60px;
+  padding-top: 10px;
+}
+footer p{
+  margin-top:8px;
+  color:black;
+}
+footer button{
+  width: 160px;
 }
 .short-info{
   margin-left: 8px;
   margin-right: 8px;
+
 }
 #addProfileDiv{
   display:flex;
