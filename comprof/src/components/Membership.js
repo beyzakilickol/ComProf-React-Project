@@ -60,7 +60,7 @@ class Membership extends Component{
                               </div>
                               <div className="price">
                                   <h4>$49.99</h4>
-                              </div><Checkout /></div>
+                              </div><Checkout name={'COMPROF'} description={'Great platform to meet professionals'} amount = {49.99} image={stripelogo}/></div>
                       </div>
                       <div className="col-md-5 col-lg-4">
                           <div className="clean-pricing-item">
@@ -76,7 +76,7 @@ class Membership extends Component{
                               </div>
                               <div className="price">
                                   <h4>$99.99</h4>
-                              </div><Checkout/></div>
+                              </div><Checkout name={'COMPROF'} description={'Great platform to meet professionals'} amount = {99.99} image={stripelogo}/></div>
                       </div>
                   </div>
               </div>

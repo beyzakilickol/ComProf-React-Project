@@ -25,7 +25,7 @@ const connectionString= {
 
 const db = pgp(connectionString)
 const jwt = require('jsonwebtoken')
-//app.use(cors())
+app.use(cors())
 // parse application/json
 app.use(bodyParser.json())
 const dotEnv = require('dotenv').config()
@@ -126,7 +126,7 @@ app.post('/api/addprofile',function(req,res){
     })
   }).catch((error)=>{
     if(error.code == 42703 || error.received == 0){
-      db.none('insert into profile (fullname,zipcode,image,expertise,subcategory,experience,achievement,userid) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
+      db.none('insert into profile (fullname,zipcode,image,expertise,subcategory,experience,achievement,userid) values ($1,$2,$3,$4,$5,$6,$7,$8)',[fullname,zipcode,image,expertise,subcategory,experience,achievement,userid]).then(()=>{
         res.json({success:true})
       })
     }
@@ -294,4 +294,10 @@ app.post('/api/getAllMessages',function(req,res){
   db.any('select * from receivedmessages where userid = $1',[userid]).then((response)=>{
     res.json(response)
   })
+})
+app.post('/api/sendMembership',function(req,res){
+  let userid = req.body.userid
+  let membership = req.body.membership
+  console.log(userid)
+  console.log(membership)
 })
