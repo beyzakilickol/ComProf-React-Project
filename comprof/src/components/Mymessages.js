@@ -23,6 +23,11 @@ class Mymessages extends Component{
     })
   }
 
+  getsenderid=(e)=>{
+    console.log(e.target.value)
+      this.props.contactUserId(e.target.value)
+      this.props.history.push('/sendmessage')
+  }
   render(){
       let message = this.state.messages.map((each)=>{
         return   <div class="card">
@@ -32,7 +37,7 @@ class Mymessages extends Component{
        <div class="card-body">
          <blockquote class="blockquote mb-0">
            <p>{each.messagebody}</p>
-            <footer class="blockquote-footer">From : {each.sender}</footer>
+            <footer class="blockquote-footer">From : {each.sender}<button onClick={this.getsenderid} className='btn btn-warning response' value={each.senderid}>Response</button></footer>
          </blockquote>
        </div>
      </div>
@@ -58,7 +63,7 @@ userid: state.userid
 const mapDispatchToProps = (dispatch) => {
   return {
     // this.props.onIncrementCounter
-
+    contactUserId: (id) => dispatch({type: "CONTACTUSERID", contactuserid: id})
   }
 }
 

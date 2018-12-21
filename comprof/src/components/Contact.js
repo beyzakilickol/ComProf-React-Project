@@ -19,8 +19,9 @@ body: ''
     }
   }
   sendmessage = ()=>{
-
+     console.log(this.props.contactuserid)
     axios.post('http://localhost:3001/api/sendmessage',{
+      senderid: this.props.userid,
       senderusername: this.props.username,
       contactuserid: this.props.contactuserid,
       messagetitle: this.state.title,
@@ -65,7 +66,8 @@ const mapStateToProps = (state) => {
   return {
     //ctr: state.counter // this.props.ctr
     contactuserid: state.contactuserid,
-    username: state.username
+    username: state.username,
+    userid: state.userid
   }
 }
 

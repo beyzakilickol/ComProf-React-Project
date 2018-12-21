@@ -8,13 +8,19 @@ import avatar2 from './avatar2.jpg'
 import $ from 'jquery';
 
 
+function getValue(button){
+   console.log("in get Value function "+button.value)
+}
+
 class MainDashboard extends Component{
   constructor(props){
     super(props)
+
     this.state={
     profiles:[],
     rating: 'No rating yet'
     }
+  
 
   }
 
@@ -46,33 +52,42 @@ class MainDashboard extends Component{
                let profs = response.data.map((each)=>{
 
                  if(each.rating){
-                 return ` <div class="profCard2">
-                   <div class="profileDivborder2"><img class="profile-img2" src=${avatar2}/></div>
-                    <h2 class="text-center text-white">${each.expertise}/${each.subcategory}</h2>
-                    <h5 >${each.fullname}</h5>
-                    <p class="text-white short-info">${each.experience}</p>
-                    <footer>
-                    <p>Rating: ${each.rating}</p>
-                    <input class="more" type="hidden" value="${each.userid}"/>
-                    <button class="moreBtn btn btn-warning" >More...</button>
-                    </footer>
+                 return `
+                 <div class='profCard2'>
+                   <div class='profileDivborder2'>
+                     <img class='profile-img2' src=${avatar2}/>
+                   </div>
+                   <h2 class='text-center text-white'>${each.expertise}/${each.subcategory}</h2>
+                   <h5 >${each.fullname}</h5>
+                   <p class='text-white short-info'>${each.experience}</p>
+                   <footer>
+                     <p>Rating: ${each.rating}</p>
+                     <input class='more' type='hidden' value=${each.userid}/>
+                     <button ref={this.myRef
+                     } onclick={getValue(this)} class='moreBtn btn btn-warning' value=${each.userid}>More...</button>
+                     </footer>
                    </div>`
                  } else {
-                     return ` <div class="profCard2">
-                       <div class="profileDivborder2"><img class="profile-img2" src=${avatar2}/></div>
-                        <h2 class="text-center text-white">${each.expertise}/${each.subcategory}</h2>
-                        <h5 >${each.fullname}</h5>
-                        <p class="text-white short-info">${each.experience}</p>
-                        <footer>
-                        <p>Rating: No rating yet</p>
-                        <input class="more" type="hidden" value="${each.userid}"/>
-                        <button class="moreBtn btn btn-warning" >More...</button>
-                        </footer>
-                       </div>`
+                     return `
+                     <div class='profCard2'>
+                       <div class='profileDivborder2'>
+                         <img class='profile-img2' src=${avatar2}/>
+                       </div>
+                       <h2 class='text-center text-white'>${each.expertise}/${each.subcategory}</h2>
+                       <h5 >${each.fullname}</h5>
+                       <p class='text-white short-info'>${each.experience}</p>
+                       <footer>
+                       <p>Rating: No rating yet</p>
+                       <input class='more' type='hidden' value=${each.userid}/>
+                       <button onClick={this.getValue} class='moreBtn btn btn-warning' value=${each.userid}>More...</button>
+                       </footer>
+                     </div>`
                    }
-               })
 
+               })
+               console.log(profs)
                $('.professionalsContainer2').html(profs)
+
           })
               console.log($(this).children().children().html().replace("&amp;", "&"))
         console.log($(this).parentsUntil('.has-sub').parent().find('.expertise').html().replace("&amp;", "&"))

@@ -21,6 +21,7 @@ import Profile from './components/Profile'
 import Contact from './components/Contact'
 import Mymessages from './components/Mymessages'
 import {persistor, store} from './store/configureStore'
+import StripeCheckout from './components/StripeCheckout'
 
 
 ReactDOM.render(
@@ -41,6 +42,7 @@ ReactDOM.render(
       <Route exact path="/myprofile" component={Profile} />
       <Route exact path="/sendmessage" component={Contact} />
       <Route exact path="/mymessages" component={Mymessages} />
+      <Route exact path="/stripecheckout" component={StripeCheckout} />
     </Switch>
 
   </BaseLayout>

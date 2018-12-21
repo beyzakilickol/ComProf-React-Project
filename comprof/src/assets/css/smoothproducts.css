@@ -234,3 +234,14 @@ html, body {
 .hide{
   display:none;
 }
+.StripeCheckout span{
+   visibility:hidden;
+}
+.StripeCheckout span:after{
+  content: 'ENROLL NOW';
+  visibility:visible;
+  margin-left: -90px;
+}
+.StripeCheckout{
+  width: 180px;
+}

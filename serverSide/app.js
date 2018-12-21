@@ -1,8 +1,18 @@
 const express = require('express')
-const app = express()
+
+const SERVER_CONFIGS = require('./constants/server');
+
+const configureServer = require('./server');
+const configureRoutes = require('./routes');
+
+const app = express();
+
+configureServer(app);
+configureRoutes(app);
+
 var bodyParser = require('body-parser')
 const PORT = 3001
-// const pgp= require('pg-promise')()
+
 const bcrypt = require('bcrypt');
 var cors = require('cors')
 const pgp= require('pg-promise')()
@@ -15,7 +25,7 @@ const connectionString= {
 
 const db = pgp(connectionString)
 const jwt = require('jsonwebtoken')
-app.use(cors())
+//app.use(cors())
 // parse application/json
 app.use(bodyParser.json())
 const dotEnv = require('dotenv').config()
@@ -266,14 +276,16 @@ app.post('/api/submitRating',function(req,res){
 })
 app.post('/api/sendmessage',function(req,res){
   let contactuserid = req.body.contactuserid
+  console.log(contactuserid)
   let messagebody = req.body.messagebody
   let messagetitle = req.body.messagetitle
   let senderusername = req.body.senderusername
+  let senderid = req.body.senderid
   console.log(senderusername)
   console.log(messagebody)
   console.log(messagetitle)
   console.log(contactuserid)
-  db.none('insert into receivedmessages (messagetitle,messagebody,userid,sender) values ($1,$2,$3,$4)',[messagetitle,messagebody,contactuserid,senderusername]).then(()=>{
+  db.none('insert into receivedmessages (messagetitle,messagebody,userid,sender,senderid) values ($1,$2,$3,$4,$5)',[messagetitle,messagebody,contactuserid,senderusername,senderid]).then(()=>{
     res.json({success:true})
   })
 })

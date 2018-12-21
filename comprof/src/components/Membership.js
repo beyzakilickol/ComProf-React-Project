@@ -5,6 +5,9 @@ import logo from './logo.png'
 import '../assets/bootstrap/css/bootstrap.min.css'
 import '../assets/fonts/simple-line-icons.min.css'
 import '../assets/css/smoothproducts.css'
+import TakeMoney from './StripeCheckout'
+import Checkout from '../Checkout'
+import stripelogo from './stripelogo.png'
 
 
 class Membership extends Component{
@@ -21,6 +24,7 @@ class Membership extends Component{
               <div className="container">
                   <div className="block-heading">
                       <h2 className="text-info">GET A MEMBERSHIP</h2>
+
                       <p id="membershipText">Make unlimited search for providers closest to you, check their expertise, experience, achievements, customer reviews and CONTACT!</p>
                   </div>
                   <div className="row justify-content-center">
@@ -38,7 +42,8 @@ class Membership extends Component{
                               </div>
                               <div className="price">
                                   <h4>$9.99</h4>
-                              </div><button className="btn btn-outline-primary btn-block" type="button">ENROLL NOW</button></div>
+
+                              </div><Checkout name={'COMPROF'} description={'Great platform to meet professionals'} amount = {9.99} image={stripelogo}/></div>
                       </div>
                       <div className="col-md-5 col-lg-4">
                           <div className="clean-pricing-item">
@@ -55,7 +60,7 @@ class Membership extends Component{
                               </div>
                               <div className="price">
                                   <h4>$49.99</h4>
-                              </div><button className="btn btn-primary btn-block" type="button">ENROLL NOW</button></div>
+                              </div><Checkout /></div>
                       </div>
                       <div className="col-md-5 col-lg-4">
                           <div className="clean-pricing-item">
@@ -71,7 +76,7 @@ class Membership extends Component{
                               </div>
                               <div className="price">
                                   <h4>$99.99</h4>
-                              </div><button className="btn btn-outline-primary btn-block" type="button">ENROLL NOW</button></div>
+                              </div><Checkout/></div>
                       </div>
                   </div>
               </div>

@@ -13,6 +13,7 @@ import FullProfile from './FullProfile'
 import Profile from './Profile'
 import Contact from './Contact'
 import Mymessages from './Mymessages'
+import StripeCheckout from './StripeCheckout'
 
 
 
