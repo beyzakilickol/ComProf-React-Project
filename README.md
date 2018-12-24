@@ -8,6 +8,9 @@
 * **Database on the app:**
 <img src="postgres.png" height="100px" width="150px">
 
+## Introduction video of the project: 
+https://youtu.be/uRPCgXmS6IE
+
 * **Purpose of the app:** 
    Created a platform where clients can meet vendors, professionals and providers by their zip code. Clients can
 check their service and quality ratings and contact with them with the messaging system after choosing appropriate membership and make payment for it through Stripe API.
@@ -19,10 +22,9 @@ check their service and quality ratings and contact with them with the messaging
 ## User sign up and login: 
 ![](signup.gif)
 
-## Admin login and dashboard: 
-![](admin.gif)
+## Creating profile for professionals: 
+![](profile.gif)
 
 
-## Introduction video of the project: 
-https://youtu.be/uRPCgXmS6IE
+
 
