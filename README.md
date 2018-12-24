@@ -29,7 +29,8 @@ check their service and quality ratings and contact with them with the messaging
    ![](filtering.gif)
    
    On profile cards of professionals, there are 'more' button which takes the user to the full profile of that professional. In full profile page, clients can rate the professional based on their service quality and contact with them through the app. 
-
+   
+![](rating.gif)
 
 
 
