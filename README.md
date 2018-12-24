@@ -24,7 +24,11 @@ check their service and quality ratings and contact with them with the messaging
    ## Creating profile for professionals: 
 ![](profile.gif)
 
-   In adition, there is an option where the user can look at his/her full profile. Under 'Find Professional' section, there are main and sub job categories with filtering options so that the user can easily make a search. On profile cards of professionals, there are 'more' button which takes the user to the full profile of that professional. In full profile page, clients can rate the professional based on their service quality and contact with them through the app. 
+   In adition, there is an option where the user can look at his/her full profile. Under 'Find Professional' section, there are main and sub job categories with filtering options so that the user can easily make a search. 
+   
+   ![](filtering.gif)
+   
+   On profile cards of professionals, there are 'more' button which takes the user to the full profile of that professional. In full profile page, clients can rate the professional based on their service quality and contact with them through the app. 
 
 
 
