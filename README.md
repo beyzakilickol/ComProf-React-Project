@@ -1,11 +1,13 @@
 # ComProf-React-Project
 * **Front End on the app:**
 <div><img src="jQuery.png" height="100px" width="150px"><img src="js.png" height="100px" width="150px"><img src="reactredux.png" height="100px" width="250px"><img src="htmlcss.png" height="100px" width="250px"></div>
+
 * **Back End on the app:**
 <div><img src="nodeexpress.png" height="100px" width="150px"><img src="js.png" height="100px" width="150px"></div>
 
 * **Database on the app:**
 <img src="postgres.png" height="100px" width="150px">
+
 * **Purpose of the app:** 
    Created a platform where clients can meet vendors, professionals and providers by their zip code. Clients can
 check their service and quality ratings and contact with them with the messaging system after choosing appropriate membership and make payment for it through Stripe API.
