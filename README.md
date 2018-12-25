@@ -32,6 +32,9 @@ check their service and quality ratings and contact with them with the messaging
    
 ![](rating.gif)
 
+When a client send a message to the professional, professional is able to see who has sent the message under messaging tab in his/her dashboard and response to the client. Client has the same messaging features in his/her dashboard as well.
+
+![](messaging.gif)
 
 
 
